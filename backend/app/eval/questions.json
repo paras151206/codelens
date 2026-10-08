@@ -1,0 +1,40 @@
+{
+  "repositories": {
+    "itsdangerous": {"url": "https://github.com/pallets/itsdangerous", "commit": "672971d66a2ef9f85151e53283113f33d642dabd"},
+    "markupsafe": {"url": "https://github.com/pallets/markupsafe", "commit": "b2e4d9c7687be25695fffbe93a37622302b24fb1"}
+  },
+  "questions": [
+    {"repo":"itsdangerous","question":"Where is a signing key derived using the selected derivation method?","targets":[{"path":"src/itsdangerous/signer.py","symbol":"derive_key"}]},
+    {"repo":"itsdangerous","question":"How does Signer append a signature to a value?","targets":[{"path":"src/itsdangerous/signer.py","symbol":"sign"}]},
+    {"repo":"itsdangerous","question":"Where does Signer split a signed value and reject invalid signatures?","targets":[{"path":"src/itsdangerous/signer.py","symbol":"unsign"}]},
+    {"repo":"itsdangerous","question":"How does signature verification try rotated secret keys?","targets":[{"path":"src/itsdangerous/signer.py","symbol":"verify_signature"}]},
+    {"repo":"itsdangerous","question":"Where is the actual HMAC digest generated?","targets":[{"path":"src/itsdangerous/signer.py","symbol":"get_signature","parent":"HMACAlgorithm"}]},
+    {"repo":"itsdangerous","question":"How is the current integer timestamp obtained for timed signatures?","targets":[{"path":"src/itsdangerous/timed.py","symbol":"get_timestamp"}]},
+    {"repo":"itsdangerous","question":"Where are expired and future-dated signatures checked against max_age?","targets":[{"path":"src/itsdangerous/timed.py","symbol":"unsign"}]},
+    {"repo":"itsdangerous","question":"How is a timestamp converted to a timezone-aware datetime?","targets":[{"path":"src/itsdangerous/timed.py","symbol":"timestamp_to_datetime"}]},
+    {"repo":"itsdangerous","question":"How does the serializer serialize an object and sign its payload?","targets":[{"path":"src/itsdangerous/serializer.py","symbol":"dumps"}]},
+    {"repo":"itsdangerous","question":"How are fallback signers iterated when loading old signatures?","targets":[{"path":"src/itsdangerous/serializer.py","symbol":"iter_unsigners"}]},
+    {"repo":"itsdangerous","question":"Where is a serialized payload decoded and BadPayload raised?","targets":[{"path":"src/itsdangerous/serializer.py","symbol":"load_payload"}]},
+    {"repo":"itsdangerous","question":"How can a payload be loaded unsafely for signature inspection?","targets":[{"path":"src/itsdangerous/serializer.py","symbol":"loads_unsafe"}]},
+    {"repo":"itsdangerous","question":"Where is URL-safe payload compression selected before base64 encoding?","targets":[{"path":"src/itsdangerous/url_safe.py","symbol":"dump_payload"}]},
+    {"repo":"itsdangerous","question":"Where is a URL-safe payload base64-decoded and decompressed?","targets":[{"path":"src/itsdangerous/url_safe.py","symbol":"load_payload"}]},
+    {"repo":"itsdangerous","question":"How is missing padding restored when decoding base64?","targets":[{"path":"src/itsdangerous/encoding.py","symbol":"base64_decode"}]},
+    {"repo":"itsdangerous","question":"Where does a Unicode string become UTF-8 bytes?","targets":[{"path":"src/itsdangerous/encoding.py","symbol":"want_bytes"}]},
+    {"repo":"markupsafe","question":"How does escape handle objects implementing __html__?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"escape","parent":""}]},
+    {"repo":"markupsafe","question":"Which function escapes None as an empty string?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"escape_silent"}]},
+    {"repo":"markupsafe","question":"How can an object be converted to a string while preserving Markup?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"soft_str"}]},
+    {"repo":"markupsafe","question":"How does Markup escape a string during addition?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"__add__","parent":"Markup"}]},
+    {"repo":"markupsafe","question":"How does Markup perform safe percent interpolation?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"__mod__"}]},
+    {"repo":"markupsafe","question":"Where are iterable items escaped before being joined?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"join"}]},
+    {"repo":"markupsafe","question":"How can HTML entities be converted back into plain text?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"unescape"}]},
+    {"repo":"markupsafe","question":"Where are HTML tags stripped and whitespace normalized?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"striptags"}]},
+    {"repo":"markupsafe","question":"How does a safe string preserve its type when indexed or sliced?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"__getitem__","parent":"Markup"}]},
+    {"repo":"markupsafe","question":"Where does Markup escape the replacement string in replace?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"replace"}]},
+    {"repo":"markupsafe","question":"How does format use an escaping string formatter?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"format"}]},
+    {"repo":"markupsafe","question":"Where does the formatter support __html_format__ and reject incompatible format specs?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"format_field"}]},
+    {"repo":"markupsafe","question":"How does format_map safely format a mapping?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"format_map"}]},
+    {"repo":"markupsafe","question":"Where are the five special HTML characters replaced in the pure Python fallback?","targets":[{"path":"src/markupsafe/_native.py","symbol":"_escape_inner"}]},
+    {"repo":"markupsafe","question":"How is a safe string constructed from an object with __html__?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"__new__"}]},
+    {"repo":"markupsafe","question":"How does Markup partition return three safe strings?","targets":[{"path":"src/markupsafe/__init__.py","symbol":"partition"}]}
+  ]
+}

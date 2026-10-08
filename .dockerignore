@@ -1,0 +1,10 @@
+**/.venv
+**/.uv-cache
+**/.npm-cache
+**/node_modules
+**/.next
+**/.env
+**/.env.local
+**/__pycache__
+backend/data
+.git

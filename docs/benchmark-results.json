@@ -1,0 +1,4366 @@
+{
+  "status": "complete",
+  "generated": "2026-10-02T12:44:13.466770+00:00",
+  "questions": 32,
+  "k": 5,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "reranker_model": "ms-marco-TinyBERT-L-2-v2",
+  "commits": {
+    "itsdangerous": "672971d66a2ef9f85151e53283113f33d642dabd",
+    "markupsafe": "b2e4d9c7687be25695fffbe93a37622302b24fb1"
+  },
+  "rows": [
+    {
+      "mode": "dense",
+      "recall": 0.71875,
+      "mrr": 0.42552083333333335,
+      "latency_ms": 2.396812499966927
+    },
+    {
+      "mode": "hybrid",
+      "recall": 0.6875,
+      "mrr": 0.5,
+      "latency_ms": 3.0670593750130593
+    },
+    {
+      "mode": "hybrid+rerank",
+      "recall": 0.75,
+      "mrr": 0.5489583333333333,
+      "latency_ms": 79.24516874999199
+    }
+  ],
+  "details": [
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "Where is a signing key derived using the selected derivation method?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "derive_key"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "test_key_derivation",
+          "start": 70,
+          "end": 72
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "derive_key",
+          "start": 182,
+          "end": 213
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 20,
+          "end": 22
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "test_invalid_key_derivation",
+          "start": 74,
+          "end": 78
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 182,
+          "end": 246
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "How does Signer append a signature to a value?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "sign"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 36,
+          "end": 37
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 20,
+          "end": 22
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "sign",
+          "start": 222,
+          "end": 225
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "NoneAlgorithm",
+          "start": 31,
+          "end": 37
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "get_signature",
+          "start": 14,
+          "end": 15
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "Where does Signer split a signed value and reject invalid signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "unsign"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "validate",
+          "start": 258,
+          "end": 266
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "test_signer",
+          "start": 27,
+          "end": 32
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "TestSigner",
+          "start": 18,
+          "end": 82
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "test_broken_signature",
+          "start": 42,
+          "end": 51
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "test_no_separator",
+          "start": 34,
+          "end": 40
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "How does signature verification try rotated secret keys?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "secret_key",
+          "start": 176,
+          "end": 180
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 129,
+          "end": 193
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature",
+          "start": 227,
+          "end": 242
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "get_signature",
+          "start": 14,
+          "end": 15
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "__init__",
+          "start": 129,
+          "end": 173
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "Where is the actual HMAC digest generated?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "parent": "HMACAlgorithm"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "HMACAlgorithm",
+          "start": 48,
+          "end": 64
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 62,
+          "end": 64
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "__init__",
+          "start": 56,
+          "end": 60
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature",
+          "start": 24,
+          "end": 28
+        },
+        {
+          "path": "tests/test_itsdangerous/test_serializer.py",
+          "symbol": "test_digests",
+          "start": 186,
+          "end": 196
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "How is the current integer timestamp obtained for timed signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "get_timestamp"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 22,
+          "end": 86
+        },
+        {
+          "path": "docs/timed.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 28
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "get_timestamp",
+          "start": 29,
+          "end": 33
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 128,
+          "end": 167
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 75,
+          "end": 139
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "Where are expired and future-dated signatures checked against max_age?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "unsign"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "SignatureExpired",
+          "start": 60,
+          "end": 63
+        },
+        {
+          "path": "docs/timed.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 28
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "unsign",
+          "start": 125,
+          "end": 158
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 128,
+          "end": 167
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "__init__",
+          "start": 41,
+          "end": 57
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "How is a timestamp converted to a timezone-aware datetime?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "timestamp_to_datetime"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "timestamp_to_datetime",
+          "start": 35,
+          "end": 43
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 22,
+          "end": 86
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "unsign",
+          "start": 72,
+          "end": 136
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 75,
+          "end": 139
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "get_timestamp",
+          "start": 29,
+          "end": 33
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "How does the serializer serialize an object and sign its payload?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dumps"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/serializer.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dump_payload",
+          "start": 271,
+          "end": 276
+        },
+        {
+          "path": "tests/test_itsdangerous/test_serializer.py",
+          "symbol": "serializer",
+          "start": 41,
+          "end": 42
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "_PDataSerializer",
+          "start": 24,
+          "end": 29
+        },
+        {
+          "path": "tests/test_itsdangerous/test_serializer.py",
+          "symbol": "test_signer_cls",
+          "start": 130,
+          "end": 136
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "How are fallback signers iterated when loading old signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "iter_unsigners"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "iter_unsigners",
+          "start": 287,
+          "end": 307
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 20,
+          "end": 22
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 36,
+          "end": 37
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "NoneAlgorithm",
+          "start": 31,
+          "end": 37
+        },
+        {
+          "path": "tests/test_itsdangerous/test_serializer.py",
+          "symbol": "test_fallback_signers",
+          "start": 155,
+          "end": 164
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "Where is a serialized payload decoded and BadPayload raised?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "load_payload"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dump_payload",
+          "start": 271,
+          "end": 276
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "load_payload",
+          "start": 243,
+          "end": 269
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "Serializer",
+          "start": 252,
+          "end": 316
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadPayload",
+          "start": 92,
+          "end": 106
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "_PDataSerializer",
+          "start": 24,
+          "end": 29
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "How can a payload be loaded unsafely for signature inspection?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "loads_unsafe"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadSignature",
+          "start": 22,
+          "end": 33
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "__init__",
+          "start": 25,
+          "end": 33
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "loads_unsafe",
+          "start": 349,
+          "end": 365
+        },
+        {
+          "path": "docs/serializer.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 112
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "loads",
+          "start": 328,
+          "end": 343
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "Where is URL-safe payload compression selected before base64 encoding?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload",
+          "start": 55,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "URLSafeSerializerMixin",
+          "start": 15,
+          "end": 69
+        },
+        {
+          "path": "docs/url_safe.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "Where is a URL-safe payload base64-decoded and decompressed?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "load_payload"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload",
+          "start": 55,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "module",
+          "start": 39,
+          "end": 48
+        },
+        {
+          "path": "docs/url_safe.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "How is missing padding restored when decoding base64?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "module",
+          "start": 39,
+          "end": 48
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        },
+        {
+          "path": "tests/test_itsdangerous/test_encoding.py",
+          "symbol": "test_base64",
+          "start": 18,
+          "end": 22
+        },
+        {
+          "path": "docs/encoding.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "itsdangerous",
+      "question": "Where does a Unicode string become UTF-8 bytes?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "want_bytes"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "bytes_to_int",
+          "start": 53,
+          "end": 54
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "int_to_bytes",
+          "start": 49,
+          "end": 50
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "want_bytes",
+          "start": 11,
+          "end": 17
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dump_payload",
+          "start": 271,
+          "end": 276
+        },
+        {
+          "path": "tests/test_itsdangerous/test_serializer.py",
+          "symbol": "coerce_str",
+          "start": 28,
+          "end": 32
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How does escape handle objects implementing __html__?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "parent": ""
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_escape_return_type",
+          "start": 194,
+          "end": 202
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "Which function escapes None as an empty string?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_escape_silent",
+          "start": 177,
+          "end": 180
+        },
+        {
+          "path": "tests/test_escape.py",
+          "symbol": "test_subclass",
+          "start": 64,
+          "end": 68
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 231,
+          "end": 240
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How can an object be converted to a string while preserving Markup?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_formatting_with_objects",
+          "start": 169,
+          "end": 174
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How does Markup escape a string during addition?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__add__",
+          "parent": "Markup"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/_native.py",
+          "symbol": "_escape_inner",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How does Markup perform safe percent interpolation?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__mod__"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 77
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_dict_interpol",
+          "start": 67,
+          "end": 74
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_string_interpolation",
+          "start": 32,
+          "end": 33
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_tuple_interpol",
+          "start": 61,
+          "end": 64
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "Where are iterable items escaped before being joined?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "join"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "join",
+          "start": 170,
+          "end": 171
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "_MarkupEscapeHelper",
+          "start": 357,
+          "end": 379
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "split",
+          "start": 173,
+          "end": 176
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "partition",
+          "start": 303,
+          "end": 306
+        },
+        {
+          "path": "tests/test_leak.py",
+          "symbol": "test_markup_leaks",
+          "start": 11,
+          "end": 28
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How can HTML entities be converted back into plain text?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "README.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 50
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "Where are HTML tags stripped and whitespace normalized?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "striptags"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 190,
+          "end": 254
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        },
+        {
+          "path": "README.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 50
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How does a safe string preserve its type when indexed or sliced?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__getitem__",
+          "parent": "Markup"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 231,
+          "end": 240
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "Where does Markup escape the replacement string in replace?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "replace"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/_native.py",
+          "symbol": "_escape_inner",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "replace",
+          "start": 257,
+          "end": 258
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How does format use an escaping string formatter?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.2,
+      "retrieved": [
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 77
+        },
+        {
+          "path": "src/markupsafe/_native.py",
+          "symbol": "_escape_inner",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format",
+          "start": 313,
+          "end": 315
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "Where does the formatter support __html_format__ and reject incompatible format specs?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_field"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.25,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__html_format__",
+          "start": 325,
+          "end": 329
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_field",
+          "start": 339,
+          "end": 354
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "__html_format__",
+          "start": 137,
+          "end": 138
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How does format_map safely format a mapping?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_map"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_map",
+          "start": 317,
+          "end": 323
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_format_map",
+          "start": 118,
+          "end": 120
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format",
+          "start": 313,
+          "end": 315
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "Where are the five special HTML characters replaced in the pure Python fallback?",
+      "targets": [
+        {
+          "path": "src/markupsafe/_native.py",
+          "symbol": "_escape_inner"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "__html__",
+          "start": 44,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__new__",
+          "start": 122,
+          "end": 131
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__html__",
+          "start": 17,
+          "end": 17
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__html__",
+          "start": 133,
+          "end": 134
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How is a safe string constructed from an object with __html__?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__new__"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "Foo",
+          "start": 198,
+          "end": 200
+        }
+      ]
+    },
+    {
+      "mode": "dense",
+      "repo": "markupsafe",
+      "question": "How does Markup partition return three safe strings?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "partition"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "partition",
+          "start": 303,
+          "end": 306
+        },
+        {
+          "path": "README.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 50
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "Where is a signing key derived using the selected derivation method?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "derive_key"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "derive_key",
+          "start": 182,
+          "end": 213
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 182,
+          "end": 246
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "test_key_derivation",
+          "start": 70,
+          "end": 72
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "TestSigner",
+          "start": 71,
+          "end": 102
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 129,
+          "end": 193
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "How does Signer append a signature to a value?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "sign"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "NoneAlgorithm",
+          "start": 31,
+          "end": 37
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "unsign",
+          "start": 244,
+          "end": 256
+        },
+        {
+          "path": "docs/concepts.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "docs/concepts.rst",
+          "symbol": "module",
+          "start": 107,
+          "end": 154
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 36,
+          "end": 37
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "Where does Signer split a signed value and reject invalid signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "unsign"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 235,
+          "end": 266
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "TestSigner",
+          "start": 18,
+          "end": 82
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "unsign",
+          "start": 244,
+          "end": 256
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "NoneAlgorithm",
+          "start": 31,
+          "end": 37
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "validate",
+          "start": 258,
+          "end": 266
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "How does signature verification try rotated secret keys?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 129,
+          "end": 193
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature",
+          "start": 227,
+          "end": 242
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 235,
+          "end": 266
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "secret_key",
+          "start": 176,
+          "end": 180
+        },
+        {
+          "path": "docs/concepts.rst",
+          "symbol": "module",
+          "start": 107,
+          "end": 154
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "Where is the actual HMAC digest generated?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "parent": "HMACAlgorithm"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "HMACAlgorithm",
+          "start": 48,
+          "end": 64
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 62,
+          "end": 64
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature",
+          "start": 24,
+          "end": 28
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "__init__",
+          "start": 56,
+          "end": 60
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "SigningAlgorithm",
+          "start": 15,
+          "end": 28
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "How is the current integer timestamp obtained for timed signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "get_timestamp"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 22,
+          "end": 86
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "get_timestamp",
+          "start": 29,
+          "end": 33
+        },
+        {
+          "path": "docs/timed.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 28
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "loads",
+          "start": 185,
+          "end": 220
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 75,
+          "end": 139
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "Where are expired and future-dated signatures checked against max_age?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "unsign"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/timed.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 28
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 128,
+          "end": 167
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "loads",
+          "start": 185,
+          "end": 220
+        },
+        {
+          "path": "tests/test_itsdangerous/test_timed.py",
+          "symbol": "test_future_age",
+          "start": 78,
+          "end": 85
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "SignatureExpired",
+          "start": 60,
+          "end": 63
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "How is a timestamp converted to a timezone-aware datetime?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "timestamp_to_datetime"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "timestamp_to_datetime",
+          "start": 35,
+          "end": 43
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 22,
+          "end": 86
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "unsign",
+          "start": 72,
+          "end": 136
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 75,
+          "end": 139
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "__init__",
+          "start": 41,
+          "end": 57
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "How does the serializer serialize an object and sign its payload?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dumps"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/serializer.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dump_payload",
+          "start": 271,
+          "end": 276
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "Serializer",
+          "start": 40,
+          "end": 104
+        },
+        {
+          "path": "docs/concepts.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "Serializer",
+          "start": 252,
+          "end": 316
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "How are fallback signers iterated when loading old signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "iter_unsigners"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "iter_unsigners",
+          "start": 287,
+          "end": 307
+        },
+        {
+          "path": "tests/test_itsdangerous/test_serializer.py",
+          "symbol": "test_fallback_signers",
+          "start": 155,
+          "end": 164
+        },
+        {
+          "path": "docs/concepts.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "__init__",
+          "start": 190,
+          "end": 234
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "Serializer",
+          "start": 93,
+          "end": 157
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "Where is a serialized payload decoded and BadPayload raised?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "load_payload"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadPayload",
+          "start": 92,
+          "end": 106
+        },
+        {
+          "path": "docs/serializer.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 112
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "Serializer",
+          "start": 252,
+          "end": 316
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dumps",
+          "start": 309,
+          "end": 320
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadSignature",
+          "start": 22,
+          "end": 33
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "How can a payload be loaded unsafely for signature inspection?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "loads_unsafe"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "loads_unsafe",
+          "start": 349,
+          "end": 365
+        },
+        {
+          "path": "docs/serializer.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 112
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadPayload",
+          "start": 92,
+          "end": 106
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadHeader",
+          "start": 66,
+          "end": 89
+        },
+        {
+          "path": "CHANGES.rst",
+          "symbol": "module",
+          "start": 213,
+          "end": 277
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "Where is URL-safe payload compression selected before base64 encoding?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.25,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "docs/url_safe.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload",
+          "start": 55,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "URLSafeSerializerMixin",
+          "start": 15,
+          "end": 69
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "Where is a URL-safe payload base64-decoded and decompressed?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "load_payload"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/url_safe.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload",
+          "start": 55,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "URLSafeSerializer",
+          "start": 72,
+          "end": 76
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "How is missing padding restored when decoding base64?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "load_payload",
+          "start": 23,
+          "end": 53
+        },
+        {
+          "path": "tests/test_itsdangerous/test_encoding.py",
+          "symbol": "test_base64",
+          "start": 18,
+          "end": 22
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "URLSafeSerializerMixin",
+          "start": 15,
+          "end": 69
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "itsdangerous",
+      "question": "Where does a Unicode string become UTF-8 bytes?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "want_bytes"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "want_bytes",
+          "start": 11,
+          "end": 17
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dump_payload",
+          "start": 271,
+          "end": 276
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "Serializer",
+          "start": 252,
+          "end": 316
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "bytes_to_int",
+          "start": 53,
+          "end": 54
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How does escape handle objects implementing __html__?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "parent": ""
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "Which function escapes None as an empty string?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_formatting_empty",
+          "start": 123,
+          "end": 125
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How can an object be converted to a string while preserving Markup?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How does Markup escape a string during addition?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__add__",
+          "parent": "Markup"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 77
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How does Markup perform safe percent interpolation?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__mod__"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 77
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_string_interpolation",
+          "start": 32,
+          "end": 33
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "README.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 50
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "Where are iterable items escaped before being joined?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "join"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "join",
+          "start": 170,
+          "end": 171
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 137,
+          "end": 201
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How can HTML entities be converted back into plain text?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "Where are HTML tags stripped and whitespace normalized?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "striptags"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 190,
+          "end": 254
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "striptags",
+          "start": 199,
+          "end": 228
+        },
+        {
+          "path": "README.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 50
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How does a safe string preserve its type when indexed or sliced?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__getitem__",
+          "parent": "Markup"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 231,
+          "end": 240
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "Where does Markup escape the replacement string in replace?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "replace"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "replace",
+          "start": 257,
+          "end": 258
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/_native.py",
+          "symbol": "_escape_inner",
+          "start": 1,
+          "end": 8
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How does format use an escaping string formatter?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.25,
+      "retrieved": [
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format",
+          "start": 313,
+          "end": 315
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 77
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "Where does the formatter support __html_format__ and reject incompatible format specs?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_field"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_field",
+          "start": 339,
+          "end": 354
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__html_format__",
+          "start": 325,
+          "end": 329
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format",
+          "start": 313,
+          "end": 315
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How does format_map safely format a mapping?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_map"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_map",
+          "start": 317,
+          "end": 323
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_format_map",
+          "start": 118,
+          "end": 120
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_field",
+          "start": 339,
+          "end": 354
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "Where are the five special HTML characters replaced in the pure Python fallback?",
+      "targets": [
+        {
+          "path": "src/markupsafe/_native.py",
+          "symbol": "_escape_inner"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        },
+        {
+          "path": "tests/test_exception_custom_html.py",
+          "symbol": "test_exception_custom_html",
+          "start": 13,
+          "end": 23
+        },
+        {
+          "path": "README.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 50
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How is a safe string constructed from an object with __html__?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__new__"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        }
+      ]
+    },
+    {
+      "mode": "hybrid",
+      "repo": "markupsafe",
+      "question": "How does Markup partition return three safe strings?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "partition"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "partition",
+          "start": 303,
+          "end": 306
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "README.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 50
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "Where is a signing key derived using the selected derivation method?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "derive_key"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "derive_key",
+          "start": 182,
+          "end": 213
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "__init__",
+          "start": 129,
+          "end": 173
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 182,
+          "end": 246
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 129,
+          "end": 193
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "TestSigner",
+          "start": 71,
+          "end": 102
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "How does Signer append a signature to a value?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "sign"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 215,
+          "end": 220
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 20,
+          "end": 22
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 62,
+          "end": 64
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "NoneAlgorithm",
+          "start": 31,
+          "end": 37
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "get_signature",
+          "start": 14,
+          "end": 15
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "Where does Signer split a signed value and reject invalid signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "unsign"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.2,
+      "retrieved": [
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "TestSigner",
+          "start": 71,
+          "end": 102
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "validate",
+          "start": 258,
+          "end": 266
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "TestSigner",
+          "start": 18,
+          "end": 82
+        },
+        {
+          "path": "tests/test_itsdangerous/test_signer.py",
+          "symbol": "test_changed_value",
+          "start": 53,
+          "end": 59
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "unsign",
+          "start": 244,
+          "end": 256
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "How does signature verification try rotated secret keys?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature",
+          "start": 227,
+          "end": 242
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 235,
+          "end": 266
+        },
+        {
+          "path": "docs/concepts.rst",
+          "symbol": "module",
+          "start": 107,
+          "end": 154
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "Signer",
+          "start": 76,
+          "end": 140
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature",
+          "start": 24,
+          "end": 28
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "Where is the actual HMAC digest generated?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "parent": "HMACAlgorithm"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "HMACAlgorithm",
+          "start": 48,
+          "end": 64
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "get_signature",
+          "start": 62,
+          "end": 64
+        },
+        {
+          "path": "tests/test_itsdangerous/test_serializer.py",
+          "symbol": "TestSerializer",
+          "start": 141,
+          "end": 183
+        },
+        {
+          "path": "docs/concepts.rst",
+          "symbol": "module",
+          "start": 107,
+          "end": 154
+        },
+        {
+          "path": "src/itsdangerous/signer.py",
+          "symbol": "verify_signature",
+          "start": 24,
+          "end": 28
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "How is the current integer timestamp obtained for timed signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "get_timestamp"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "docs/timed.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 28
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "get_timestamp",
+          "start": 29,
+          "end": 33
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 22,
+          "end": 86
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "unsign",
+          "start": 65,
+          "end": 70
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "sign",
+          "start": 45,
+          "end": 51
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "Where are expired and future-dated signatures checked against max_age?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "unsign"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "tests/test_itsdangerous/test_timed.py",
+          "symbol": "test_future_age",
+          "start": 78,
+          "end": 85
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 22,
+          "end": 86
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 128,
+          "end": 167
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "loads",
+          "start": 185,
+          "end": 220
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "SignatureExpired",
+          "start": 60,
+          "end": 63
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "How is a timestamp converted to a timezone-aware datetime?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "timestamp_to_datetime"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "timestamp_to_datetime",
+          "start": 35,
+          "end": 43
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 22,
+          "end": 86
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 75,
+          "end": 139
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "unsign",
+          "start": 72,
+          "end": 136
+        },
+        {
+          "path": "src/itsdangerous/timed.py",
+          "symbol": "TimestampSigner",
+          "start": 128,
+          "end": 167
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "How does the serializer serialize an object and sign its payload?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dumps"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "load_payload",
+          "start": 243,
+          "end": 269
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dump_payload",
+          "start": 271,
+          "end": 276
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dumps",
+          "start": 309,
+          "end": 320
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "Serializer",
+          "start": 252,
+          "end": 316
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "loads",
+          "start": 25,
+          "end": 25
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "How are fallback signers iterated when loading old signatures?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "iter_unsigners"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "iter_unsigners",
+          "start": 287,
+          "end": 307
+        },
+        {
+          "path": "docs/serializer.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 112
+        },
+        {
+          "path": "tests/test_itsdangerous/test_serializer.py",
+          "symbol": "test_fallback_signers",
+          "start": 155,
+          "end": 164
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "Serializer",
+          "start": 199,
+          "end": 263
+        },
+        {
+          "path": "docs/concepts.rst",
+          "symbol": "module",
+          "start": 107,
+          "end": 154
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "Where is a serialized payload decoded and BadPayload raised?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "load_payload"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadPayload",
+          "start": 92,
+          "end": 106
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "load_payload",
+          "start": 23,
+          "end": 53
+        },
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "load_payload",
+          "start": 243,
+          "end": 269
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "URLSafeSerializerMixin",
+          "start": 15,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "__init__",
+          "start": 101,
+          "end": 106
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "How can a payload be loaded unsafely for signature inspection?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "loads_unsafe"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "loads_unsafe",
+          "start": 349,
+          "end": 365
+        },
+        {
+          "path": "docs/serializer.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 112
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadSignature",
+          "start": 22,
+          "end": 33
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "BadPayload",
+          "start": 92,
+          "end": 106
+        },
+        {
+          "path": "src/itsdangerous/exc.py",
+          "symbol": "__init__",
+          "start": 25,
+          "end": 33
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "Where is URL-safe payload compression selected before base64 encoding?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload",
+          "start": 55,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "URLSafeSerializerMixin",
+          "start": 15,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "load_payload",
+          "start": 23,
+          "end": 53
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "Where is a URL-safe payload base64-decoded and decompressed?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "load_payload"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "load_payload",
+          "start": 23,
+          "end": 53
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "URLSafeSerializerMixin",
+          "start": 15,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "dump_payload",
+          "start": 55,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/__init__.py",
+          "symbol": "module",
+          "start": 1,
+          "end": 17
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "How is missing padding restored when decoding base64?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "URLSafeSerializerMixin",
+          "start": 15,
+          "end": 69
+        },
+        {
+          "path": "src/itsdangerous/url_safe.py",
+          "symbol": "load_payload",
+          "start": 23,
+          "end": 53
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "tests/test_itsdangerous/test_encoding.py",
+          "symbol": "test_base64",
+          "start": 18,
+          "end": 22
+        },
+        {
+          "path": "docs/encoding.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "itsdangerous",
+      "question": "Where does a Unicode string become UTF-8 bytes?",
+      "targets": [
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "want_bytes"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/itsdangerous/serializer.py",
+          "symbol": "dumps",
+          "start": 309,
+          "end": 320
+        },
+        {
+          "path": "docs/signer.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "want_bytes",
+          "start": 11,
+          "end": 17
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_decode",
+          "start": 28,
+          "end": 38
+        },
+        {
+          "path": "src/itsdangerous/encoding.py",
+          "symbol": "base64_encode",
+          "start": 20,
+          "end": 25
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How does escape handle objects implementing __html__?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "parent": ""
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "tests/test_ext_init.py",
+          "symbol": "test_ext_init",
+          "start": 15,
+          "end": 28
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "Which function escapes None as an empty string?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 231,
+          "end": 240
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How can an object be converted to a string while preserving Markup?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How does Markup escape a string during addition?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__add__",
+          "parent": "Markup"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 231,
+          "end": 240
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How does Markup perform safe percent interpolation?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__mod__"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_tuple_interpol",
+          "start": 61,
+          "end": 64
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_dict_interpol",
+          "start": 67,
+          "end": 74
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_string_interpolation",
+          "start": 32,
+          "end": 33
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_missing_interpol",
+          "start": 56,
+          "end": 58
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "Where are iterable items escaped before being joined?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "join"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "join",
+          "start": 170,
+          "end": 171
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How can HTML entities be converted back into plain text?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "unescape",
+          "start": 188,
+          "end": 197
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "Where are HTML tags stripped and whitespace normalized?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "striptags"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "striptags",
+          "start": 199,
+          "end": 228
+        },
+        {
+          "path": ".editorconfig",
+          "symbol": "module",
+          "start": 1,
+          "end": 13
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 190,
+          "end": 254
+        },
+        {
+          "path": "tests/test_exception_custom_html.py",
+          "symbol": "test_exception_custom_html",
+          "start": 13,
+          "end": 23
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How does a safe string preserve its type when indexed or sliced?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__getitem__",
+          "parent": "Markup"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "Where does Markup escape the replacement string in replace?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "replace"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.3333333333333333,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "replace",
+          "start": 257,
+          "end": 258
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 231,
+          "end": 240
+        },
+        {
+          "path": "src/markupsafe/_native.py",
+          "symbol": "_escape_inner",
+          "start": 1,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How does format use an escaping string formatter?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.2,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 54,
+          "end": 77
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format",
+          "start": 313,
+          "end": 315
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "Where does the formatter support __html_format__ and reject incompatible format specs?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_field"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 0.5,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_field",
+          "start": 339,
+          "end": 354
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "__html_format__",
+          "start": 150,
+          "end": 158
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__html_format__",
+          "start": 325,
+          "end": 329
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How does format_map safely format a mapping?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_map"
+        }
+      ],
+      "recall": 1.0,
+      "mrr": 1.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "format_map",
+          "start": 317,
+          "end": 323
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 296,
+          "end": 329
+        },
+        {
+          "path": "tests/test_markupsafe.py",
+          "symbol": "test_format_map",
+          "start": 118,
+          "end": 120
+        },
+        {
+          "path": "docs/formatting.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 65
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "EscapeFormatter",
+          "start": 332,
+          "end": 354
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "Where are the five special HTML characters replaced in the pure Python fallback?",
+      "targets": [
+        {
+          "path": "src/markupsafe/_native.py",
+          "symbol": "_escape_inner"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "docs/index.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 52
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": ".github/ISSUE_TEMPLATE/bug-report.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 27
+        },
+        {
+          "path": "README.md",
+          "symbol": "module",
+          "start": 1,
+          "end": 50
+        },
+        {
+          "path": "CHANGES.rst",
+          "symbol": "module",
+          "start": 107,
+          "end": 171
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How is a safe string constructed from an object with __html__?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "__new__"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "docs/html.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 49
+        }
+      ]
+    },
+    {
+      "mode": "hybrid+rerank",
+      "repo": "markupsafe",
+      "question": "How does Markup partition return three safe strings?",
+      "targets": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "partition"
+        }
+      ],
+      "recall": 0.0,
+      "mrr": 0.0,
+      "retrieved": [
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape",
+          "start": 24,
+          "end": 45
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "Markup",
+          "start": 84,
+          "end": 148
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "soft_str",
+          "start": 64,
+          "end": 81
+        },
+        {
+          "path": "docs/escaping.rst",
+          "symbol": "module",
+          "start": 1,
+          "end": 21
+        },
+        {
+          "path": "src/markupsafe/__init__.py",
+          "symbol": "escape_silent",
+          "start": 48,
+          "end": 61
+        }
+      ]
+    }
+  ]
+}
