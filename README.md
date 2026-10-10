@@ -1,3 +1,13 @@
+## Hosted setup (updated October 10, 2026)
+
+Visitors never enter tokens or provider keys. Browser requests go through the Next.js server gateway.
+
+- **Render / codelens-api / Environment:** add `GROQ_API_KEY` (required for Groq answers). Optionally add `GEMINI_API_KEY` for fallback. Save and deploy. Keep `ACCESS_TOKEN` set.
+- **Vercel / codelens / Environment Variables:** `CODELENS_API_URL` is the backend origin; `CODELENS_ACCESS_TOKEN` must match Render's `ACCESS_TOKEN`. Both are server-only; do not use a `NEXT_PUBLIC_` prefix. These connection values are configured on the live project.
+- Local frontend development uses `CODELENS_API_URL=http://localhost:8000`; add `CODELENS_ACCESS_TOKEN` only if your local backend requires it.
+
+The public UI uses a restrained blue/black theme. No connection-token field, theme picker, decorative cursor glow, or fake chat preview is shown. The public gateway grants visitors access to the app's public-repository features, while keeping its backend credential private. It forwards only supported routes, rejects cross-origin requests, limits request sizes, and preserves streamed responses. Existing backend rate and concurrency limits still apply. This is a shared public-repository workspace; not a private multi-user account system.
+
 # CodeLens
 
 **Understand every line. Follow every claim to its source.**
@@ -176,9 +186,9 @@ Changing the embedding model requires reindexing; the backend rejects incompatib
 
 1. Push the project to your GitHub repository.
 2. Import it in Vercel, choose the **Hobby** plan, and set the project root to `frontend`.
-3. Set `NEXT_PUBLIC_API_URL` to the HTTPS backend origin. Redeploy whenever this value changes.
+3. Set `CODELENS_API_URL` to the HTTPS backend origin and `CODELENS_ACCESS_TOKEN` to the Render access token. Redeploy when these values change.
 4. Deploy with the included Next.js configuration. `npm ci` prepares local Monaco assets automatically.
-5. Add the exact Vercel origin to backend `CORS_ORIGINS`. Enter the backend's shared `ACCESS_TOKEN` using the settings icon in CodeLens.
+5. Add the exact Vercel origin to backend `CORS_ORIGINS`. The server gateway supplies the backend token; visitors do not enter it.
 
 Check the [Hobby plan terms](https://vercel.com/docs/plans/hobby); it is for personal, non-commercial use. Do not enable paid add-ons for this project.
 

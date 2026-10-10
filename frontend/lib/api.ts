@@ -1,13 +1,7 @@
-export const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+// Requests go through the same-origin server. Credentials never enter the browser.
+export const API = "/api/gateway";
 export function headers(): Record<string, string> {
-  const token =
-    typeof window !== "undefined"
-      ? sessionStorage.getItem("codelens-token")
-      : "";
-  return {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
+  return { "Content-Type": "application/json" };
 }
 export async function api<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(API + path, {

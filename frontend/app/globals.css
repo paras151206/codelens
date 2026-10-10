@@ -2538,3 +2538,58 @@ footer > div {
     font-size: 12px;
   }
 }
+
+/* Quiet blue/black visual system. */
+:root { --bg:#090c11; --surface:#10151e; --surface-2:#151c27; --border:#253040; --muted:#8b99ac; --text:#e5ebf4; --accent:#70a5ff; --accent-rgb:112,165,255; }
+body { font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+.topbar { height:76px; background:#090c11; border-bottom:1px solid #1b2432; padding:0 5%; }
+.logo { font-size:22px; letter-spacing:-.7px; font-weight:600; }
+.logo-mark { background:#142238; border:1px solid #263e60; box-shadow:none; color:#86b4ff; border-radius:7px; }
+.logo-light { color:inherit; }
+.top-nav { font-size:13px; }
+.github-link { font-size:12px; border:0; }
+.start-page { width:min(860px,calc(100% - 48px)); margin:0 auto; padding:74px 0 0; }
+.section-label { color:#8c9db4; font-size:11px; letter-spacing:1.7px; font-weight:600; }
+.start-heading h1 { margin:20px 0; font-size:clamp(38px,5vw,56px); line-height:1.12; font-weight:500; letter-spacing:-2px; color:#edf2fa; }
+.start-heading p { font-size:16px; line-height:1.8; color:#95a3b6; max-width:490px; margin:0 0 38px; }
+.repository-card { border:1px solid #2a3749; background:#101720; border-radius:12px; padding:27px 30px; box-shadow:0 12px 28px #0002; }
+.card-heading { display:flex; align-items:center; gap:11px; }
+.card-heading h2 { font-size:16px; font-weight:550; }
+.card-heading > span { margin-left:auto; color:#8595aa; font-size:12px; }
+.card-heading > svg { color:#99b6de; }
+.repository-form { margin-top:28px; }
+.repository-form label { display:block; font-size:12px; margin-bottom:10px; color:#a9b6c8; }
+.repository-field { display:flex; align-items:center; gap:10px; }
+.repository-field input { min-width:0; flex:1; padding:14px 15px; border:1px solid #344258; border-radius:6px; background:#0b1018; font-size:14px; }
+.repository-field input::placeholder { color:#65758b; }
+.primary, .send { background:#397beb; color:white; border-radius:6px; box-shadow:none; font-weight:500; }
+.primary:hover,.send:hover { background:#4c89f0; box-shadow:none; transform:none; }
+.repository-field .primary { padding:14px 20px; font-size:14px; gap:14px; }
+.repository-example { display:flex; align-items:center; gap:10px; margin-top:17px; font-size:12px; color:#7f90a6; }
+.repository-example button { display:flex; gap:8px; align-items:center; color:#9cbff8; }
+.recent-list { margin-top:32px; }
+.recent-heading { display:flex; justify-content:space-between; align-items:center; padding:0 0 12px; }
+.recent-heading h2 { font-size:13px; font-weight:500; }
+.recent-heading > span { font-size:11px; color:#7e8ea4; }
+.recent-list > button { padding:17px 5px; border-top:1px solid #232d3c; width:100%; display:flex; align-items:center; gap:15px; text-align:left; }
+.recent-list > button:hover { background:#111823; }
+.recent-list > button > span { flex:1; font-size:14px; }
+.recent-list small { display:block; color:#8797ac; font-size:11px; margin-top:4px; }
+.workflow-notes { display:grid; grid-template-columns:repeat(3,1fr); gap:34px; margin:42px 0 48px; }
+.workflow-notes > div > span { color:#6487b7; font-family:monospace; font-size:12px; }
+.workflow-notes h3 { font-size:14px; font-weight:500; margin:10px 0 8px; }
+.workflow-notes p { font-size:13px; line-height:1.7; color:#8494aa; }
+.landing .simple-footer { margin:0; padding:22px 0; height:auto; border-top:1px solid #222c3b; color:#7f8da1; font-size:11px; display:flex; justify-content:space-between; }
+.orbit-logo { border-radius:10px; box-shadow:none; background:#142238; }
+.orbit-logo:before,.orbit-logo:after { display:none; }
+.chat-empty h2 { font-size:29px; letter-spacing:-.8px; }
+.chat-empty p { font-size:13px; }
+.messages { font-size:14px; }
+.pane-heading,.file-list button,.inspect-tabs button { font-size:12px; }
+.composer { background:#101720; border-color:#2a3b52; box-shadow:none; }
+.composer textarea { font-size:14px; }
+.status-dot { box-shadow:none; background:#70a5ff; }
+.pipeline > .active .pipeline-node,.progress-track > div { box-shadow:none; }
+.benchmark-main > h1 { font-size:44px; letter-spacing:-1.5px; }
+.benchmark-stats strong { color:#9bbffa; }
+@media(max-width:600px) { .start-page { width:calc(100% - 36px); padding-top:42px; } .start-heading h1 { font-size:39px; letter-spacing:-1.4px; } .start-heading p { font-size:14px; } .repository-card { padding:21px 18px; } .card-heading { flex-wrap:wrap; } .card-heading > span { width:100%; margin-left:31px; font-size:11px; } .repository-field { flex-direction:column; align-items:stretch; } .repository-field .primary { justify-content:center; } .repository-field input { width:100%; font-size:12px; } .workflow-notes { grid-template-columns:1fr; gap:23px; } .workflow-notes > div { padding-left:33px; position:relative; } .workflow-notes > div > span { position:absolute; left:0; top:2px; } .workflow-notes h3 { margin-top:0; } .landing .simple-footer > span { display:inline; } }

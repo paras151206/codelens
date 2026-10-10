@@ -6,13 +6,11 @@ import {
   ArrowRight,
   ArrowUp,
   AudioLines,
-  BookOpen,
   Braces,
   Check,
   ChevronRight,
   Code2,
   Command,
-  Cpu,
   ExternalLink,
   FileCode2,
   Folder,
@@ -20,7 +18,6 @@ import {
   Github,
   Layers3,
   LoaderCircle,
-  Maximize2,
   Network,
   Plus,
   Search,
@@ -30,7 +27,6 @@ import {
   Square,
   Terminal,
   X,
-  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -61,21 +57,6 @@ const examples = [
   "Walk me through the main entry point",
   "Where is error handling implemented?",
 ];
-const demoCode = [
-  "async def retrieve(query: str):",
-  "    intent = classify(query)",
-  "    dense, keyword = await asyncio.gather(",
-  "        vector_search(query),",
-  "        bm25_search(query)",
-  "    )",
-  "",
-  "    candidates = reciprocal_rank_fusion(",
-  "        dense, keyword",
-  "    )",
-  "    return rerank(query, candidates)",
-  "",
-];
-
 function Logo({ small = false }: { small?: boolean }) {
   return (
     <span className={`logo ${small ? "small" : ""}`}>
@@ -110,13 +91,10 @@ export default function CodeLens() {
   const [search, setSearch] = useState(""),
     [tab, setTab] = useState<"code" | "graph" | "xray">("code");
   const [palette, setPalette] = useState(false),
-    [settingsOpen, setSettingsOpen] = useState(false),
-    [token, setToken] = useState("");
+    [settingsOpen, setSettingsOpen] = useState(false);
   const [provider, setProvider] = useState(""),
-    [accent, setAccent] = useState("lime"),
     [mobilePane, setMobilePane] = useState("chat");
-  const [typed, setTyped] = useState(""),
-    [connection, setConnection] = useState("Checking connection");
+  const [connection, setConnection] = useState("Connecting…");
   const abort = useRef<AbortController | null>(null),
     end = useRef<HTMLDivElement>(null),
     input = useRef<HTMLTextAreaElement>(null),
@@ -155,28 +133,21 @@ export default function CodeLens() {
     refreshRecent();
     const id = new URLSearchParams(window.location.search).get("repo");
     if (id) void loadRepo(id);
-    setToken(sessionStorage.getItem("codelens-token") || "");
-    const saved = localStorage.getItem("codelens-accent");
-    if (saved) setAccent(saved);
     api<{ embedding_configured: boolean; providers: Record<string, unknown> }>(
       "/api/health",
     )
       .then((h) =>
         setConnection(
           !h.embedding_configured
-            ? "Embedding model needs configuration"
+            ? "Service temporarily unavailable"
             : Object.keys(h.providers).length
-              ? "Backend connected"
-              : "Backend connected · add an LLM key",
+              ? "Ready"
+              : "Chat is being set up",
         ),
       )
-      .catch(() => setConnection("Start the backend to connect"));
+      .catch(() => setConnection("Service is waking up. Please try again shortly."));
     return () => abort.current?.abort();
   }, [loadRepo, refreshRecent]);
-  useEffect(() => {
-    document.documentElement.dataset.accent = accent;
-    localStorage.setItem("codelens-accent", accent);
-  }, [accent]);
   useKeyboardShortcut("k", () => setPalette((x) => !x), true);
   useKeyboardShortcut("Escape", () => {
     setPalette(false);
@@ -189,30 +160,6 @@ export default function CodeLens() {
       block: "end",
     });
   }, [messages, status, busy]);
-  useEffect(() => {
-    const text = "How does hybrid retrieval work?";
-    let i = 0;
-    const timer = setInterval(() => {
-      setTyped(text.slice(0, ++i));
-      if (i >= text.length) clearInterval(timer);
-    }, 65);
-    return () => clearInterval(timer);
-  }, []);
-  useEffect(() => {
-    const handler = (event: PointerEvent) => {
-      document.documentElement.style.setProperty(
-        "--mouse-x",
-        `${event.clientX}px`,
-      );
-      document.documentElement.style.setProperty(
-        "--mouse-y",
-        `${event.clientY}px`,
-      );
-    };
-    window.addEventListener("pointermove", handler);
-    return () => window.removeEventListener("pointermove", handler);
-  }, []);
-
   async function ingest(target = url) {
     if (!/^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/.test(target.trim())) {
       toast.error("Enter a GitHub URL: https://github.com/owner/repository");
@@ -758,7 +705,6 @@ export default function CodeLens() {
 
   return (
     <div className={`app screen-${screen}`}>
-      <div className="cursor-glow" />
       <header className="topbar">
         <button
           className="brand-button"
@@ -815,7 +761,7 @@ export default function CodeLens() {
           </button>
           <button
             className="icon-button"
-            aria-label="Connection and appearance settings"
+            aria-label="Keyboard shortcuts"
             onClick={() => setSettingsOpen(true)}
           >
             <Settings2 size={17} />
@@ -823,7 +769,7 @@ export default function CodeLens() {
           {screen === "home" && (
             <a
               className="github-link"
-              href="https://github.com"
+              href="https://github.com/paras151206/codelens"
               target="_blank"
               rel="noreferrer"
             >
@@ -841,275 +787,20 @@ export default function CodeLens() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div className="aurora" />
-            <div className="landing-grid" />
-            <section className="hero">
-              <motion.div
-                className="release-pill"
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                <Dot />
-                <span>LESS SEARCHING. MORE SHIPPING.</span>
-                <ChevronRight size={12} />
-              </motion.div>
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
-                Big codebase.
-                <br />
-                <span>Meet the bigger picture.</span>
-              </motion.h1>
-              <motion.p
-                className="hero-description"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.25 }}
-              >
-                Turn any GitHub repository into a conversation.
-                <br />
-                Understand the architecture. Trace the logic. Get answers with
-                proof.
-              </motion.p>
-              <motion.form
-                className="repo-input"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  void ingest();
-                }}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-              >
-                <Github size={23} />
-                <input
-                  aria-label="GitHub repository URL"
-                  placeholder="https://github.com/owner/repository"
-                  value={url}
-                  onChange={(e) => setUrl(e.target.value)}
-                  required
-                />
-                <button type="submit">
-                  Index it <ArrowRight size={17} />
-                </button>
-              </motion.form>
-              <div className="try-repo">
-                <span>Try a small repo</span>
-                <button
-                  onClick={() => {
-                    setUrl("https://github.com/pallets/itsdangerous");
-                    void ingest("https://github.com/pallets/itsdangerous");
-                  }}
-                >
-                  pallets/itsdangerous <ArrowUp size={11} />
-                </button>
-                <span className="input-divider">·</span>
-                <span>Public repositories only</span>
-              </div>
-              <div className="hero-proof">
-                <span>
-                  <ShieldCheck size={13} /> Every answer, cited
-                </span>
-                <span>
-                  <Cpu size={13} /> Embeddings stay local
-                </span>
-                <span>
-                  <Zap size={13} /> Built for free tiers
-                </span>
-              </div>
-            </section>
-            <motion.section
-              className="product-preview"
-              initial={{ opacity: 0, y: 35 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.45, duration: 0.65 }}
-              aria-label="Illustrative interface preview"
-            >
-              <div className="preview-top">
-                <div className="window-dots">
-                  <i />
-                  <i />
-                  <i />
-                </div>
-                <div>
-                  <Github size={12} /> codelens / retrieval{" "}
-                  <span className="preview-label">INTERFACE PREVIEW</span>
-                </div>
-                <Maximize2 size={12} />
-              </div>
-              <div className="preview-body">
-                <aside className="preview-files">
-                  <div className="mini-label">EXPLORER</div>
-                  <p>
-                    <ChevronRight size={12} />
-                    <Folder size={13} /> codelens
-                  </p>
-                  {[
-                    "app",
-                    "ingestion",
-                    "retrieval",
-                    "engine.py",
-                    "answer.py",
-                    "llm",
-                    "api",
-                  ].map((name, i) => (
-                    <div
-                      className={
-                        i === 3 ? "preview-file current" : "preview-file"
-                      }
-                      key={name}
-                      style={{ paddingLeft: i === 3 || i === 4 ? 35 : 20 }}
-                    >
-                      {name.includes(".") ? (
-                        <FileCode2 size={12} />
-                      ) : (
-                        <Folder size={12} />
-                      )}{" "}
-                      {name}
-                    </div>
-                  ))}
-                  <div className="preview-index">
-                    <Dot /> Codebase indexed
-                  </div>
-                </aside>
-                <div className="preview-chat">
-                  <div className="preview-question">
-                    <span className="avatar">Y</span>
-                    {typed}
-                    <span className="typing-caret" />
-                  </div>
-                  <div className="preview-answer">
-                    <span className="avatar ai">
-                      <Braces size={14} />
-                    </span>
-                    <div>
-                      <strong>Two search methods. One clearer answer.</strong>
-                      <p>
-                        CodeLens combines semantic understanding with exact
-                        keyword matches, so nothing gets lost between intent and
-                        implementation.
-                      </p>
-                      <div className="preview-step">
-                        <span>01</span>Search vectors and keywords in parallel
-                      </div>
-                      <div className="preview-step">
-                        <span>02</span>Fuse the results, then rerank for
-                        relevance
-                      </div>
-                      <div className="preview-cite">
-                        <FileCode2 size={11} /> retrieval/engine.py:42–58{" "}
-                        <ArrowUp size={10} />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="preview-compose">
-                    Ask a follow-up…
-                    <span>
-                      <ArrowUp size={14} />
-                    </span>
-                  </div>
-                </div>
-                <div className="preview-code">
-                  <div>
-                    <FileCode2 size={12} /> engine.py <span>PYTHON</span>
-                  </div>
-                  <pre>
-                    {demoCode.map((line, i) => (
-                      <div
-                        className={i >= 2 && i <= 5 ? "highlight-line" : ""}
-                        key={i}
-                      >
-                        <span>{i + 1}</span>
-                        <code>{line}</code>
-                      </div>
-                    ))}
-                  </pre>
-                  <div className="preview-source-note">
-                    <ShieldCheck size={11} /> See the code. Trust the context.
-                  </div>
-                </div>
-              </div>
-            </motion.section>
-            {recent.length > 0 && (
-              <section className="recent">
-                <div className="section-label">PICK UP WHERE YOU LEFT OFF</div>
-                <div className="recent-grid">
-                  {recent.slice(0, 3).map((r) => (
-                    <button key={r.id} onClick={() => loadRepo(r.id)}>
-                      <Github size={18} />
-                      <div>
-                        <strong>{r.name}</strong>
-                        <small>
-                          {r.chunks.toLocaleString()} chunks indexed
-                        </small>
-                      </div>
-                      <ArrowRight size={16} />
-                    </button>
-                  ))}
-                </div>
+            <section className="start-page">
+              <div className="start-heading"><span className="section-label">YOUR CODE, EXPLAINED</span><h1>A little clarity<br />for your codebase.</h1><p>Explore a repository, ask a question, and follow the answer back to the code.</p></div>
+              <section className="repository-card" aria-labelledby="open-repository">
+                <div className="card-heading"><Github size={20} /><h2 id="open-repository">Open a repository</h2><span>Public GitHub repositories</span></div>
+                <form className="repository-form" onSubmit={(e) => { e.preventDefault(); void ingest(); }}>
+                  <label htmlFor="repository-url">Repository URL</label>
+                  <div className="repository-field"><input id="repository-url" aria-label="GitHub repository URL" placeholder="https://github.com/owner/repository" value={url} onChange={(e) => setUrl(e.target.value)} required /><button className="primary" type="submit">Explore <ArrowRight size={16} /></button></div>
+                </form>
+                <div className="repository-example"><span>Just looking around?</span><button onClick={() => { setUrl("https://github.com/pallets/itsdangerous"); void ingest("https://github.com/pallets/itsdangerous"); }}>Try an example <ArrowRight size={13} /></button></div>
               </section>
-            )}
-            <section id="how-it-works" className="features">
-              <div className="section-heading">
-                <div>
-                  <div className="eyebrow">BUILT TO GO BEYOND SEARCH</div>
-                  <h2>
-                    Don’t just find code.
-                    <br />
-                    Understand why it’s there.
-                  </h2>
-                </div>
-                <p>
-                  A transparent path from your question
-                  <br />
-                  to the exact lines that answer it.
-                </p>
-              </div>
-              <div className="feature-grid">
-                {[
-                  {
-                    icon: GitBranch,
-                    title: "Follow the whole story.",
-                    text: "Trace functions, dependencies, and the connections between them. Context goes beyond a single file.",
-                    tag: "AST-AWARE CONTEXT",
-                  },
-                  {
-                    icon: ShieldCheck,
-                    title: "Answers with receipts.",
-                    text: "Every citation leads straight to the source. Inspect exact lines and see when a claim needs a closer look.",
-                    tag: "VERIFIABLE SOURCES",
-                  },
-                  {
-                    icon: AudioLines,
-                    title: "Nothing behind the curtain.",
-                    text: "Open the retrieval X-ray. See the search perspectives, ranking scores, and evidence behind each answer.",
-                    tag: "RETRIEVAL X-RAY",
-                  },
-                ].map((f, i) => (
-                  <motion.div
-                    className="feature"
-                    key={f.title}
-                    whileHover={{ y: -5 }}
-                  >
-                    <div className="feature-number">0{i + 1}</div>
-                    <f.icon size={25} />
-                    <h3>{f.title}</h3>
-                    <p>{f.text}</p>
-                    <span>{f.tag}</span>
-                  </motion.div>
-                ))}
-              </div>
+              {recent.length > 0 && <section className="recent-list"><div className="recent-heading"><h2>Recently indexed</h2><span>{recent.length} repositories</span></div>{recent.map(r => <button key={r.id} onClick={() => loadRepo(r.id)}><Github size={17}/><span>{r.name}<small>{r.chunks.toLocaleString()} sections</small></span><ArrowRight size={16}/></button>)}</section>}
+              <section id="how-it-works" className="workflow-notes"><div><span>01</span><h3>Add a repository</h3><p>We read the files and map how the project fits together.</p></div><div><span>02</span><h3>Ask about the code</h3><p>Start with the architecture or a specific function.</p></div><div><span>03</span><h3>Check the source</h3><p>Open the cited lines alongside each answer.</p></div></section>
+              <footer className="simple-footer"><span>CodeLens</span><span>{connection}</span></footer>
             </section>
-            <footer>
-              <Logo small />
-              <span>Clarity is a superpower.</span>
-              <div>
-                <Dot />
-                {connection}
-              </div>
-            </footer>
           </motion.main>
         ) : screen === "ingest" ? (
           <motion.main
@@ -1118,7 +809,6 @@ export default function CodeLens() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <div className="aurora" />
             <div className="orbit-logo">
               <Braces size={30} />
             </div>
@@ -1309,7 +999,7 @@ export default function CodeLens() {
                     </>
                   ) : (
                     <>
-                      <Settings2 size={17} /> Make yourself at home
+                      <Settings2 size={17} /> Keyboard shortcuts
                     </>
                   )}
                 </span>
@@ -1390,49 +1080,6 @@ export default function CodeLens() {
                 </>
               ) : (
                 <div className="settings-body">
-                  <label>Accent color</label>
-                  <div className="accent-options">
-                    {["lime", "violet", "cyan"].map((c) => (
-                      <button
-                        key={c}
-                        aria-label={`${c} accent`}
-                        className={`accent-${c} ${accent === c ? "active" : ""}`}
-                        onClick={() => setAccent(c)}
-                      >
-                        {accent === c && <Check size={16} />}
-                      </button>
-                    ))}
-                  </div>
-                  <label htmlFor="token">Backend access token</label>
-                  <p>
-                    For a protected deployment. Stored only in this browser tab.
-                  </p>
-                  <input
-                    autoFocus
-                    id="token"
-                    type="password"
-                    value={token}
-                    onChange={(e) => setToken(e.target.value)}
-                    placeholder="Leave empty for local development"
-                  />
-                  <button
-                    className="primary"
-                    onClick={() => {
-                      sessionStorage.setItem("codelens-token", token);
-                      refreshRecent();
-                      setSettingsOpen(false);
-                      toast.success("Connection settings saved");
-                    }}
-                  >
-                    Save connection <ArrowRight size={15} />
-                  </button>
-                  <div className="settings-note">
-                    <BookOpen size={15} />
-                    <span>
-                      LLM keys belong in backend/.env. They never enter your
-                      browser.
-                    </span>
-                  </div>
                   <div className="shortcut-row">
                     <span>Command palette</span>
                     <kbd>Ctrl / ⌘ K</kbd>
