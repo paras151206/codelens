@@ -1,6 +1,6 @@
 ## Indexing reliability update (October 15, 2026)
 
-The hosted backend uses FastEmbed/ONNX with one CPU thread and small batches instead of PyTorch. The Docker build bundles the MiniLM model so cold starts do not download it. Indexing progress uses short status requests, detects interrupted jobs after server restarts, and reuses existing repositories. Failed jobs do not consume the active repository quota. Provider keys remain server-only.
+The hosted backend uses FastEmbed/ONNX with one CPU thread and small batches instead of PyTorch. The Docker build bundles the MiniLM model so cold starts do not download it. Indexing progress uses short status requests, detects interrupted jobs after server restarts, and reuses existing repositories. Failed jobs do not consume the active repository quota. Provider keys remain server-only. The Docker low-memory profile skips the optional reranker and allows one chat at a time; semantic and keyword retrieval remain enabled. AI attempts and optional planning/auditing steps have total deadlines.
 
 ## Hosted setup (updated October 10, 2026)
 

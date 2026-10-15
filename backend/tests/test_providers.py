@@ -34,7 +34,7 @@ async def test_fallback_resets_partial_output(monkeypatch) -> None:
 
 @pytest.mark.asyncio
 async def test_no_provider_is_explicit_error() -> None:
-    with pytest.raises(RuntimeError, match="No LLM"):
+    with pytest.raises(RuntimeError, match="AI service"):
         await ProviderPool([]).complete([])
 
 
@@ -68,3 +68,33 @@ async def test_model_discovery_prefers_config_and_filters_audio(monkeypatch) -> 
     await provider.discover()
     assert provider.selected == "available"
     assert "whisper-audio" not in provider.models
+
+
+@pytest.mark.asyncio
+async def test_slow_stream_times_out_and_falls_back(monkeypatch):
+    import asyncio
+    from app.core.config import settings
+    original_sleep = asyncio.sleep
+    class Slow(FakeProvider):
+        async def stream(self, messages):
+            await original_sleep(1)
+            yield "too late"
+    async def no_delay(seconds):
+        return None
+    monkeypatch.setattr(settings, "llm_attempt_timeout", 0.01)
+    monkeypatch.setattr("app.llm.providers.asyncio.sleep", no_delay)
+    pool = ProviderPool([Slow("slow", False), FakeProvider("fallback", False)])
+    assert await pool.complete([]) == "grounded answer"
+
+
+@pytest.mark.asyncio
+async def test_optional_ai_step_has_total_deadline(monkeypatch):
+    import asyncio
+    from app.core.config import settings
+    class Slow(FakeProvider):
+        async def stream(self, messages):
+            await asyncio.sleep(1)
+            yield "too late"
+    monkeypatch.setattr(settings, "llm_helper_timeout", 0.01)
+    with pytest.raises(RuntimeError, match="timed out"):
+        await ProviderPool([Slow("slow", False)]).complete([])

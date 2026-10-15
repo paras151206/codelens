@@ -129,7 +129,7 @@ class Index:
         fused = rrf(rankings)[:24]
         ranked = [cid for cid, _ in fused]
         reranked, warning = {}, None
-        if mode == "hybrid+rerank" and settings.rerank_enabled:
+        if mode == "hybrid+rerank" and settings.rerank_enabled and not settings.low_memory:
             try:
                 from flashrank import Ranker, RerankRequest
 

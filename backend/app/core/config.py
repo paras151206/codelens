@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     embedding_cache_dir: Path = Path("data/models")
     reranker_model: str = ""
     rerank_enabled: bool = True
+    low_memory: bool = False
     cors_origins: str = "http://localhost:3000"
     access_token: str = ""
     max_repo_mb: int = 100
@@ -25,6 +26,8 @@ class Settings(BaseSettings):
     min_dense_score: float = 0.30
     max_repos: int = 10
     query_cache_size: int = 128
+    llm_attempt_timeout: float = 45
+    llm_helper_timeout: float = 20
 
 
 settings = Settings()

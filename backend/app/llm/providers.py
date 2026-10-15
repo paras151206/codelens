@@ -156,21 +156,22 @@ class ProviderPool:
             failed_model = ""
             for attempt in range(2):
                 try:
-                    if not provider.selected or attempt:
-                        await provider.discover()
-                    if attempt:
-                        provider.selected = next(
-                            (m for m in provider.models if m != failed_model), provider.selected
-                        )
-                    yield {"type": "provider", "provider": provider.name, "model": provider.selected}
-                    received = False
-                    async for token in provider.stream(messages):
-                        received = True
-                        yield {"type": "token", "text": token}
-                    if not received:
-                        raise RuntimeError("Provider returned an empty answer")
-                    return
-                except (httpx.HTTPError, RuntimeError, ValueError, KeyError) as exc:
+                    async with asyncio.timeout(settings.llm_attempt_timeout):
+                        if not provider.selected or attempt:
+                            await provider.discover()
+                        if attempt:
+                            provider.selected = next(
+                                (m for m in provider.models if m != failed_model), provider.selected
+                            )
+                        yield {"type": "provider", "provider": provider.name, "model": provider.selected}
+                        received = False
+                        async for token in provider.stream(messages):
+                            received = True
+                            yield {"type": "token", "text": token}
+                        if not received:
+                            raise RuntimeError("Provider returned an empty answer")
+                        return
+                except (httpx.HTTPError, RuntimeError, ValueError, KeyError, TimeoutError) as exc:
                     failed_model = provider.selected
                     yield {
                         "type": "reset",
@@ -186,13 +187,17 @@ class ProviderPool:
                         except ValueError:
                             pass
                     await asyncio.sleep(delay)
-        raise RuntimeError("No LLM provider is available. Add a free-tier key or configure local Ollama.")
+        raise RuntimeError("The AI service is temporarily unavailable or busy. Please try again shortly.")
 
     async def complete(self, messages: list[dict]) -> str:
         answer = ""
-        async for event in self.stream(messages):
-            if event["type"] == "reset":
-                answer = ""
-            elif event["type"] == "token":
-                answer += event["text"]
+        try:
+            async with asyncio.timeout(settings.llm_helper_timeout):
+                async for event in self.stream(messages):
+                    if event["type"] == "reset":
+                        answer = ""
+                    elif event["type"] == "token":
+                        answer += event["text"]
+        except TimeoutError as exc:
+            raise RuntimeError("Optional AI step timed out") from exc
         return answer

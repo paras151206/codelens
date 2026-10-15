@@ -26,7 +26,7 @@ jobs: dict[str, list[dict]] = {}
 tasks: set[asyncio.Task] = set()
 ingestion_lock = asyncio.Lock()
 index_lock = asyncio.Lock()
-chat_slots = asyncio.Semaphore(2)
+chat_slots = asyncio.Semaphore(1 if settings.low_memory else 2)
 rates: dict[str, deque] = defaultdict(deque)
 
 

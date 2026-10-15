@@ -35,3 +35,29 @@ def test_unicode_citation_dash_is_normalized() -> None:
     assert answer == "Found [a.py:4-5]"
     assert len(citations) == 1
     assert warnings == []
+
+
+def test_low_memory_search_skips_optional_reranker(monkeypatch):
+    import threading
+    from collections import OrderedDict
+    from types import SimpleNamespace
+    import numpy as np
+    from app.retrieval.engine import Index, embeddings
+    from app.core.config import settings
+    from app.models.schema import Chunk
+    chunk = Chunk(id="a" * 32, path="voice.py", start=1, end=2, text="def voice(): pass", symbol="voice", language="python")
+    index = object.__new__(Index)
+    index.lock = threading.RLock()
+    index.cache = OrderedDict()
+    index.ranker = None
+    index.chunks = [chunk]
+    index.by_id = {chunk.id: chunk}
+    index.client = SimpleNamespace(query_points=lambda *a, **k: SimpleNamespace(points=[SimpleNamespace(id=chunk.id, score=0.9)]))
+    index.bm25 = SimpleNamespace(get_scores=lambda q: np.array([3.0]))
+    monkeypatch.setattr(embeddings, "encode", lambda q: [np.array([1.0]) for _ in q])
+    monkeypatch.setattr(settings, "low_memory", True)
+    monkeypatch.setattr(settings, "rerank_enabled", True)
+    result = index.search(["voice handler"])
+    assert result["confident"] and result["chunks"][0]["path"] == "voice.py"
+    assert result["warning"] is None and index.ranker is None
+
