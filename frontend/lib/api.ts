@@ -6,6 +6,7 @@ export function headers(): Record<string, string> {
 export async function api<T>(path: string, options?: RequestInit): Promise<T> {
   const response = await fetch(API + path, {
     ...options,
+    signal: options?.signal ?? AbortSignal.timeout(90_000),
     headers: { ...headers(), ...options?.headers },
   });
   if (!response.ok) {

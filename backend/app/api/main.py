@@ -91,7 +91,7 @@ def metadata(repo: str) -> dict:
 
 async def get_index(repo: str) -> Index:
     meta = metadata(repo)
-    if meta.get("embedding_model") != settings.embedding_model:
+    if (meta.get("embedding_model") != settings.embedding_model or meta.get("embedding_runtime") != "onnx-v1"):
         raise HTTPException(409, "Embedding model changed. Reindex this repository with the current model.")
     async with index_lock:
         if repo not in indexes:
@@ -134,6 +134,7 @@ async def ingest(repo: str, url: str) -> None:
                 chunks=len(chunks),
                 created=time.time(),
                 embedding_model=settings.embedding_model,
+                embedding_runtime="onnx-v1",
             )
             (path / "metadata.json").write_text(json.dumps(meta), encoding="utf-8")
             jobs[repo].append({"type": "done", "repo": meta})
@@ -160,8 +161,19 @@ async def repos() -> list[dict]:
 async def create_repo(body: IngestRequest) -> dict:
     if not settings.embedding_model:
         raise HTTPException(503, "Configure EMBEDDING_MODEL in backend/.env first")
+    # Reopening an indexed or active URL must not consume another repository slot.
+    for item in settings.data_dir.glob("*/metadata.json"):
+        meta = json.loads(item.read_text(encoding="utf-8"))
+        if meta.get("url") == body.url and meta.get("embedding_runtime") == "onnx-v1":
+            return {"id": meta["id"]}
+    for repo, history in jobs.items():
+        request_file = settings.data_dir / repo / "request.json"
+        if history and history[-1]["type"] not in {"done", "error"} and request_file.exists():
+            if json.loads(request_file.read_text())["url"] == body.url:
+                return {"id": repo}
     if (
-        len([p for p in settings.data_dir.iterdir() if p.is_dir() and len(p.name) == 36])
+        len(list(settings.data_dir.glob("*/metadata.json")))
+        + sum(bool(h) and h[-1]["type"] not in {"done", "error"} for h in jobs.values())
         >= settings.max_repos
     ):
         raise HTTPException(
@@ -171,11 +183,22 @@ async def create_repo(body: IngestRequest) -> dict:
         raise HTTPException(429, "Two repositories are already queued; try again shortly")
     repo = str(uuid.uuid4())
     (settings.data_dir / repo).mkdir(parents=True)
+    (settings.data_dir / repo / "request.json").write_text(json.dumps({"url": body.url}))
     jobs[repo] = [{"type": "progress", "stage": "Cloning", "message": "Queued for indexing"}]
     task = asyncio.create_task(ingest(repo, body.url))
     tasks.add(task)
     task.add_done_callback(tasks.discard)
     return {"id": repo}
+
+
+@app.get("/api/repos/{repo}/status", dependencies=[Depends(authorize)])
+async def job_status(repo: str) -> dict:
+    path = directory(repo)
+    if (path / "metadata.json").exists():
+        return {"events": [{"type": "done", "repo": metadata(repo)}]}
+    if repo in jobs:
+        return {"events": list(jobs[repo])}
+    return {"events": [{"type": "error", "message": "Indexing was interrupted by a server restart. Please retry the repository."}]}
 
 
 @app.get("/api/repos/{repo}/events", dependencies=[Depends(authorize)])

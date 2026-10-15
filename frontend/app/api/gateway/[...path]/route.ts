@@ -4,7 +4,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
 
-const allowed = /^api\/(?:health|benchmarks|repos(?:\/[a-f0-9-]{36}(?:\/(?:events|file|chat|conversations\/[a-f0-9-]{36}))?)?)$/;
+const allowed = /^api\/(?:health|benchmarks|repos(?:\/[a-f0-9-]{36}(?:\/(?:status|events|file|chat|conversations\/[a-f0-9-]{36}))?)?)$/;
 
 async function proxy(request: NextRequest, context: { params: Promise<{ path: string[] }> }) {
   const { path } = await context.params;
@@ -39,6 +39,9 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path: st
     });
     if (upstream.status === 401 || upstream.status === 403) {
       return Response.json({ detail: "The service is temporarily unavailable. Please try again later." }, { status: 503 });
+    }
+    if (upstream.status >= 500 && !upstream.headers.get("content-type")?.includes("application/json")) {
+      return Response.json({ detail: "The service restarted or is waking up. Please retry shortly." }, { status: 502 });
     }
     return new Response(upstream.body, {
       status: upstream.status,

@@ -30,24 +30,23 @@ class Embeddings:
             if not settings.embedding_model:
                 raise ValueError("Set EMBEDDING_MODEL in backend/.env; see .env.example")
             if self.model is None:
-                from sentence_transformers import SentenceTransformer
+                from fastembed import TextEmbedding
 
-                self.model = SentenceTransformer(
-                    settings.embedding_model,
-                    device="cpu",
-                    trust_remote_code=False,
-                    cache_folder=str(settings.data_dir / "models"),
+                self.model = TextEmbedding(
+                    model_name=settings.embedding_model,
+                    threads=1,
+                    cache_dir=str(settings.embedding_cache_dir),
                 )
             directory = settings.data_dir / "embeddings"
             directory.mkdir(parents=True, exist_ok=True)
             paths = [
-                directory / (hashlib.sha256((settings.embedding_model + t).encode()).hexdigest() + ".npy")
+                directory / (hashlib.sha256(("onnx-v1:" + settings.embedding_model + t).encode()).hexdigest() + ".npy")
                 for t in texts
             ]
             missing = [i for i, p in enumerate(paths) if not p.exists()]
             if missing:
-                vectors = self.model.encode(
-                    [texts[i] for i in missing], batch_size=16, normalize_embeddings=True
+                vectors = self.model.embed(
+                    [texts[i] for i in missing], batch_size=4, parallel=None
                 )
                 for i, vector in zip(missing, vectors):
                     np.save(paths[i], vector)
@@ -73,6 +72,8 @@ class Index:
         self.bm25 = BM25Okapi([tokens(c.contextual) for c in self.chunks])
         self.client = QdrantClient(path=str(directory / "vectors"))
         if chunks is not None:
+            if progress:
+                progress("Embedding", embedded=0, chunks=len(chunks), message="Loading the local search model")
             vectors = []
             for start in range(0, len(chunks), 32):
                 vectors.extend(embeddings.encode([c.contextual for c in chunks[start : start + 32]]))

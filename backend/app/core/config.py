@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     ollama_url: str = ""
     ollama_models: str = ""
     embedding_model: str = ""
+    embedding_cache_dir: Path = Path("data/models")
     reranker_model: str = ""
     rerank_enabled: bool = True
     cors_origins: str = "http://localhost:3000"

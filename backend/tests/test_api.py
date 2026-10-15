@@ -63,3 +63,35 @@ def test_chat_sse_abstains_when_evidence_is_weak(tmp_path, monkeypatch) -> None:
         conversation = events[-1]["conversation"]
         saved = client.get(f"/api/repos/{repo}/conversations/{conversation}").json()
         assert len(saved["messages"]) == 2
+
+
+def test_indexing_status_detects_restart_and_reports_errors(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "data_dir", tmp_path)
+    monkeypatch.setattr(settings, "access_token", "")
+    monkeypatch.setattr(main, "pool", ProviderPool([]))
+    monkeypatch.setattr(main, "jobs", {})
+    repo = str(uuid.uuid4())
+    (tmp_path / repo).mkdir()
+    with TestClient(main.app) as client:
+        result = client.get(f"/api/repos/{repo}/status").json()
+        assert result["events"][-1]["type"] == "error"
+        assert "restart" in result["events"][-1]["message"]
+        main.jobs[repo] = [{"type": "progress", "stage": "Embedding", "embedded": 32}]
+        assert client.get(f"/api/repos/{repo}/status").json()["events"][0]["embedded"] == 32
+        main.jobs[repo].append({"type": "error", "message": "Failed"})
+        assert client.get(f"/api/repos/{repo}/status").json()["events"][-1]["type"] == "error"
+
+
+def test_reopening_completed_repository_reuses_slot(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "data_dir", tmp_path)
+    monkeypatch.setattr(settings, "access_token", "")
+    monkeypatch.setattr(settings, "embedding_model", "test")
+    monkeypatch.setattr(settings, "max_repos", 1)
+    monkeypatch.setattr(main, "pool", ProviderPool([]))
+    repo = str(uuid.uuid4())
+    (tmp_path / repo).mkdir()
+    url = "https://github.com/pallets/itsdangerous"
+    (tmp_path / repo / "metadata.json").write_text(json.dumps({"id": repo, "url": url, "embedding_runtime": "onnx-v1"}))
+    with TestClient(main.app) as client:
+        assert client.post("/api/repos", json={"url": url}).json() == {"id": repo}
+        assert client.get(f"/api/repos/{repo}/status").json()["events"][-1]["type"] == "done"

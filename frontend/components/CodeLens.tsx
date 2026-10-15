@@ -174,10 +174,15 @@ export default function CodeLens() {
         method: "POST",
         body: JSON.stringify({ url: target.trim() }),
       });
-      await stream(
-        `/api/repos/${created.id}/events`,
-        (event) => {
-          setProgress((p) => [...p, event]);
+      const deadline = Date.now() + 12 * 60_000;
+      let completed = false;
+      while (Date.now() < deadline && !abort.current.signal.aborted) {
+        const result = await api<{ events: StreamEvent[] }>(`/api/repos/${created.id}/status`, {
+          signal: AbortSignal.any([abort.current.signal, AbortSignal.timeout(90_000)]),
+        });
+        setProgress(result.events);
+        for (const event of result.events) {
+          if (event.type === "error") throw new Error(event.message || "Indexing failed. Please retry.");
           if (event.type === "done" && event.repo) {
             setRepo(event.repo);
             setScreen("workspace");
@@ -190,10 +195,12 @@ export default function CodeLens() {
             refreshRecent();
             toast.success("Your codebase is ready to explore");
           }
-        },
-        undefined,
-        abort.current.signal,
-      );
+          if (event.type === "done") completed = true;
+        }
+        if (completed) break;
+        await new Promise((resolve) => setTimeout(resolve, 4000));
+      }
+      if (!completed && !abort.current.signal.aborted) throw new Error("Indexing is taking too long. Please retry in a moment.");
     } catch (e) {
       if ((e as Error).name !== "AbortError") setError((e as Error).message);
     }
@@ -895,7 +902,7 @@ export default function CodeLens() {
               </div>
             )}
             <p className="ingest-note">
-              The first run downloads the local embedding model.
+              Preparing the repository for local search.
               <br />
               You can leave this page; indexing continues on the server.
             </p>

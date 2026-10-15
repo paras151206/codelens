@@ -1,3 +1,7 @@
+## Indexing reliability update (October 15, 2026)
+
+The hosted backend uses FastEmbed/ONNX with one CPU thread and small batches instead of PyTorch. The Docker build bundles the MiniLM model so cold starts do not download it. Indexing progress uses short status requests, detects interrupted jobs after server restarts, and reuses existing repositories. Failed jobs do not consume the active repository quota. Provider keys remain server-only.
+
 ## Hosted setup (updated October 10, 2026)
 
 Visitors never enter tokens or provider keys. Browser requests go through the Next.js server gateway.
@@ -12,7 +16,7 @@ The public UI uses a restrained blue/black theme. No connection-token field, the
 
 **Understand every line. Follow every claim to its source.**
 
-CodeLens turns a public GitHub repository into a searchable, conversational workspace. It combines local sentence-transformer embeddings, Qdrant, BM25, reciprocal-rank fusion, and optional FlashRank reranking with streamed, source-cited answers from Groq, Gemini, or local Ollama.
+CodeLens turns a public GitHub repository into a searchable, conversational workspace. It combines local ONNX embeddings, Qdrant, BM25, reciprocal-rank fusion, and optional FlashRank reranking with streamed, source-cited answers from Groq, Gemini, or local Ollama.
 
 ![CodeLens landing page](docs/screenshots/landing.png)
 
