@@ -6,7 +6,19 @@ Explore a public GitHub repository, ask questions, and follow each answer back t
 
 ![Current CodeLens homepage with a blue-and-black design and private browser workspace](docs/screenshots/home.png)
 
-*Live interface, captured October 17, 2026.*
+*Homepage, October 17, 2026.*
+
+### Indexed workspace
+
+Browse the repository's files and ask questions alongside the source viewer.
+
+![CodeLens indexed workspace showing the BioMechScanner file explorer and chat](docs/screenshots/workspace.png)
+
+### Answer and source code
+
+An explanation of `app.py` with the source open alongside it.
+
+![CodeLens explaining BioMechScanner app.py with the source code displayed beside the answer](docs/screenshots/answer.png)
 
 ## What it does
 
