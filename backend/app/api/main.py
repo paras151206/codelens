@@ -5,6 +5,7 @@ import logging
 import time
 import uuid
 import shutil
+import threading
 from collections import defaultdict, deque
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -126,10 +127,14 @@ def sse(event: dict) -> str:
 
 async def ingest(repo: str, url: str) -> None:
     loop = asyncio.get_running_loop()
+    loop_thread = threading.get_ident()
 
     def progress(stage: str, **data) -> None:
         event = {"type": "progress", "stage": stage, **data}
-        loop.call_soon_threadsafe(jobs[repo].append, event)
+        if threading.get_ident() == loop_thread:
+            jobs[repo].append(event)
+        else:
+            loop.call_soon_threadsafe(jobs[repo].append, event)
 
     async with ingestion_lock:
         path = directory(repo)
@@ -199,13 +204,13 @@ async def create_repo(body: IngestRequest, request: Request) -> dict:
                 return {"id": repo}
     if (
         sum(owner_of(p.parent) == owner for p in settings.data_dir.glob("*/metadata.json"))
-        + sum(bool(h) and h[-1]["type"] not in {"done", "error"} and owner_of(settings.data_dir / r) == owner for r, h in jobs.items())
+        + sum(bool(h) and h[-1]["type"] not in {"done", "error"} and not (settings.data_dir / r / "metadata.json").exists() and owner_of(settings.data_dir / r) == owner for r, h in jobs.items())
         >= settings.max_repos
     ):
         raise HTTPException(
             429, "Your workspace is full. Return home and remove a repository to make room."
         )
-    if sum(not events or events[-1]["type"] not in {"done", "error"} for events in jobs.values()) >= 2:
+    if sum((not events or events[-1]["type"] not in {"done", "error"}) and not (settings.data_dir / r / "metadata.json").exists() for r, events in jobs.items()) >= 2:
         raise HTTPException(429, "Two repositories are already queued; try again shortly")
     repo = str(uuid.uuid4())
     (settings.data_dir / repo).mkdir(parents=True)
@@ -221,7 +226,7 @@ async def create_repo(body: IngestRequest, request: Request) -> dict:
 async def remove_repo(repo: str) -> dict:
     path = directory(repo)
     history = jobs.get(repo, [])
-    if history and history[-1]["type"] not in {"done", "error"}:
+    if history and history[-1]["type"] not in {"done", "error"} and not (path / "metadata.json").exists():
         raise HTTPException(409, "Wait for indexing to finish before removing this repository")
     # Chat holds this semaphore while reading/saving, so deletion cannot race a response.
     async with chat_slots:

@@ -170,3 +170,26 @@ def test_conversation_id_cannot_overwrite_another_repository(tmp_path, monkeypat
     main.store.save("same-id", "owner-b-repo", [{"content": "attacker"}])
     assert main.store.history("same-id", "owner-a-repo") == [{"content": "original"}]
     assert main.store.history("same-id", "owner-b-repo") == []
+
+
+def test_ingestion_done_remains_terminal(tmp_path, monkeypatch):
+    import asyncio
+    monkeypatch.setattr(settings, "data_dir", tmp_path)
+    monkeypatch.setattr(main, "jobs", {})
+    monkeypatch.setattr(main, "clone", lambda *args: "commit")
+    monkeypatch.setattr(main, "parse_repo", lambda *args: ([object()], {"files": ["a.py"]}))
+    class FakeIndex:
+        def __init__(self, path, chunks, progress):
+            self.client = self
+            progress("Embedding", embedded=1)
+        def close(self):
+            pass
+    monkeypatch.setattr(main, "Index", FakeIndex)
+    repo = str(uuid.uuid4())
+    (tmp_path / repo).mkdir()
+    main.jobs[repo] = []
+    async def run():
+        await main.ingest(repo, "https://github.com/octocat/Hello-World")
+        await asyncio.sleep(0)
+        assert main.jobs[repo][-1]["type"] == "done"
+    asyncio.run(run())
