@@ -3,7 +3,15 @@ export const API = "/api/gateway";
 export function headers(): Record<string, string> {
   return { "Content-Type": "application/json" };
 }
+let sessionReady: Promise<void> | undefined;
+function ensureSession() {
+  if (!sessionReady) sessionReady = fetch(API + "/api/health", { cache: "no-store", signal: AbortSignal.timeout(90_000) })
+    .then(response => { if (!response.ok) throw new Error("The service is waking up. Please retry shortly."); })
+    .catch(error => { sessionReady = undefined; throw error; });
+  return sessionReady;
+}
 export async function api<T>(path: string, options?: RequestInit): Promise<T> {
+  await ensureSession();
   const response = await fetch(API + path, {
     ...options,
     signal: options?.signal ?? AbortSignal.timeout(90_000),
@@ -25,6 +33,7 @@ export async function stream(
   body?: unknown,
   signal?: AbortSignal,
 ) {
+  await ensureSession();
   const response = await fetch(API + path, {
     method: body ? "POST" : "GET",
     headers: headers(),

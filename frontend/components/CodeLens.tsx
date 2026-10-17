@@ -26,6 +26,7 @@ import {
   Sparkles,
   Square,
   Terminal,
+  Trash2,
   X,
 } from "lucide-react";
 import Link from "next/link";
@@ -305,11 +306,20 @@ export default function CodeLens() {
   }
   async function copyShare() {
     await navigator.clipboard.writeText(
-      `${window.location.origin}/?repo=${repo?.id}`,
+      repo?.url || window.location.origin,
     );
     toast.success(
-      "Repository link copied. Recipients need access to this backend.",
+      "Public GitHub URL copied. Your workspace and chat stay private.",
     );
+  }
+  async function removeRepository(id: string) {
+    if (!window.confirm("Remove this repository and its chat history from your workspace? You can index it again later.")) return;
+    try {
+      await api(`/api/repos/${id}`, { method: "DELETE" });
+      localStorage.removeItem(`codelens-conversation-${id}`);
+      refreshRecent();
+      toast.success("Repository removed from your workspace");
+    } catch (error) { toast.error((error as Error).message); }
   }
   function exportChat() {
     const text =
@@ -773,9 +783,10 @@ export default function CodeLens() {
           >
             <Settings2 size={17} />
           </button>
-          {screen === "home" && (
+          {(
             <a
               className="github-link"
+              aria-label="CodeLens on GitHub"
               href="https://github.com/paras151206/codelens"
               target="_blank"
               rel="noreferrer"
@@ -797,14 +808,14 @@ export default function CodeLens() {
             <section className="start-page">
               <div className="start-heading"><span className="section-label">YOUR CODE, EXPLAINED</span><h1>A little clarity<br />for your codebase.</h1><p>Explore a repository, ask a question, and follow the answer back to the code.</p></div>
               <section className="repository-card" aria-labelledby="open-repository">
-                <div className="card-heading"><Github size={20} /><h2 id="open-repository">Open a repository</h2><span>Public GitHub repositories</span></div>
+                <div className="card-heading"><Github size={20} /><h2 id="open-repository">Open a repository</h2><span>Private to this browser</span></div>
                 <form className="repository-form" onSubmit={(e) => { e.preventDefault(); void ingest(); }}>
                   <label htmlFor="repository-url">Repository URL</label>
                   <div className="repository-field"><input id="repository-url" aria-label="GitHub repository URL" placeholder="https://github.com/owner/repository" value={url} onChange={(e) => setUrl(e.target.value)} required /><button className="primary" type="submit">Explore <ArrowRight size={16} /></button></div>
                 </form>
                 <div className="repository-example"><span>Just looking around?</span><button onClick={() => { setUrl("https://github.com/pallets/itsdangerous"); void ingest("https://github.com/pallets/itsdangerous"); }}>Try an example <ArrowRight size={13} /></button></div>
               </section>
-              {recent.length > 0 && <section className="recent-list"><div className="recent-heading"><h2>Recently indexed</h2><span>{recent.length} repositories</span></div>{recent.map(r => <button key={r.id} onClick={() => loadRepo(r.id)}><Github size={17}/><span>{r.name}<small>{r.chunks.toLocaleString()} sections</small></span><ArrowRight size={16}/></button>)}</section>}
+              {recent.length > 0 && <section className="recent-list"><div className="recent-heading"><h2>Your workspace</h2><span>{recent.length} repositories</span></div>{recent.map(r => <div className="recent-row" key={r.id}><button onClick={() => loadRepo(r.id)}><Github size={17}/><span>{r.name}<small>{r.chunks.toLocaleString()} sections</small></span><ArrowRight size={16}/></button><button className="icon-button" aria-label={`Remove ${r.name}`} onClick={() => void removeRepository(r.id)}><Trash2 size={16}/></button></div>)}</section>}
               <section id="how-it-works" className="workflow-notes"><div><span>01</span><h3>Add a repository</h3><p>We read the files and map how the project fits together.</p></div><div><span>02</span><h3>Ask about the code</h3><p>Start with the architecture or a specific function.</p></div><div><span>03</span><h3>Check the source</h3><p>Open the cited lines alongside each answer.</p></div></section>
               <footer className="simple-footer"><span>CodeLens</span><span>{connection}</span></footer>
             </section>

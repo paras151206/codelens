@@ -21,6 +21,11 @@ def history(conversation: str, repo: str) -> list[dict]:
 def save(conversation: str, repo: str, messages: list[dict]) -> None:
     with connect() as db:
         db.execute(
-            "INSERT OR REPLACE INTO conversations VALUES (?, ?, ?)",
+            "INSERT INTO conversations VALUES (?, ?, ?) ON CONFLICT(id) DO UPDATE SET messages=excluded.messages WHERE conversations.repo=excluded.repo",
             (conversation, repo, json.dumps(messages[-20:])),
         )
+
+
+def remove_repo(repo: str) -> None:
+    with connect() as db:
+        db.execute("DELETE FROM conversations WHERE repo=?", (repo,))

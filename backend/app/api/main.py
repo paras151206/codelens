@@ -4,6 +4,7 @@ import json
 import logging
 import time
 import uuid
+import shutil
 from collections import defaultdict, deque
 from contextlib import asynccontextmanager
 from pathlib import Path
@@ -47,7 +48,7 @@ app = FastAPI(title="CodeLens", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins.split(","),
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["Content-Type", "Authorization"],
 )
 
@@ -57,7 +58,16 @@ async def authorize(request: Request) -> None:
         request.headers.get("authorization", ""), f"Bearer {settings.access_token}"
     ):
         raise HTTPException(401, "Access token required")
-    host = request.client.host if request.client else "local"
+    owner = request.headers.get("x-codelens-session", "")
+    try:
+        owner = str(uuid.UUID(owner))
+    except ValueError:
+        raise HTTPException(401, "Private session required. Reload CodeLens.") from None
+    request.state.owner = owner
+    repo = request.path_params.get("repo")
+    if repo and owner_of(directory(repo)) != owner:
+        raise HTTPException(404, "Repository not found in this browser session")
+    host = owner
     now = time.monotonic()
     queue = rates[host]
     while queue and queue[0] < now - 60:
@@ -82,6 +92,13 @@ def directory(repo: str) -> Path:
     return path
 
 
+def owner_of(path: Path) -> str | None:
+    request_file = path / "request.json"
+    if not request_file.exists():
+        return None  # Never expose legacy shared indexes to new visitors.
+    return json.loads(request_file.read_text()).get("owner")
+
+
 def metadata(repo: str) -> dict:
     path = directory(repo) / "metadata.json"
     if not path.exists():
@@ -93,9 +110,13 @@ async def get_index(repo: str) -> Index:
     meta = metadata(repo)
     if (meta.get("embedding_model") != settings.embedding_model or meta.get("embedding_runtime") != "onnx-v1"):
         raise HTTPException(409, "Embedding model changed. Reindex this repository with the current model.")
-    async with index_lock:
-        if repo not in indexes:
-            indexes[repo] = await asyncio.to_thread(Index, directory(repo))
+    # Called under index_lock by chat: only one loaded repository is retained.
+    # Per-visitor disk quotas must not turn into an unbounded process-memory cache.
+    if repo not in indexes:
+        for old in indexes.values():
+            old.client.close()
+        indexes.clear()
+        indexes[repo] = await asyncio.to_thread(Index, directory(repo))
     return indexes[repo]
 
 
@@ -124,7 +145,7 @@ async def ingest(repo: str, url: str) -> None:
                 message="Symbols and source line ranges extracted",
             )
             index = await asyncio.to_thread(Index, path, chunks, progress)
-            indexes[repo] = index
+            index.client.close()
             progress("Indexing", message="Saving vector, keyword, and dependency indexes")
             meta.update(
                 id=repo,
@@ -149,46 +170,69 @@ async def health() -> dict:
 
 
 @app.get("/api/repos", dependencies=[Depends(authorize)])
-async def repos() -> list[dict]:
+async def repos(request: Request) -> list[dict]:
     results = []
     for path in settings.data_dir.glob("*/metadata.json"):
+        if owner_of(path.parent) != request.state.owner:
+            continue
         meta = json.loads(path.read_text(encoding="utf-8"))
         results.append({k: meta[k] for k in ("id", "name", "url", "created", "chunks")})
     return sorted(results, key=lambda r: r["created"], reverse=True)
 
 
 @app.post("/api/repos", dependencies=[Depends(authorize)])
-async def create_repo(body: IngestRequest) -> dict:
+async def create_repo(body: IngestRequest, request: Request) -> dict:
+    owner = request.state.owner
     if not settings.embedding_model:
         raise HTTPException(503, "Configure EMBEDDING_MODEL in backend/.env first")
     # Reopening an indexed or active URL must not consume another repository slot.
     for item in settings.data_dir.glob("*/metadata.json"):
+        if owner_of(item.parent) != owner:
+            continue
         meta = json.loads(item.read_text(encoding="utf-8"))
         if meta.get("url") == body.url and meta.get("embedding_runtime") == "onnx-v1":
             return {"id": meta["id"]}
     for repo, history in jobs.items():
         request_file = settings.data_dir / repo / "request.json"
-        if history and history[-1]["type"] not in {"done", "error"} and request_file.exists():
+        if history and history[-1]["type"] not in {"done", "error"} and request_file.exists() and owner_of(request_file.parent) == owner:
             if json.loads(request_file.read_text())["url"] == body.url:
                 return {"id": repo}
     if (
-        len(list(settings.data_dir.glob("*/metadata.json")))
-        + sum(bool(h) and h[-1]["type"] not in {"done", "error"} for h in jobs.values())
+        sum(owner_of(p.parent) == owner for p in settings.data_dir.glob("*/metadata.json"))
+        + sum(bool(h) and h[-1]["type"] not in {"done", "error"} and owner_of(settings.data_dir / r) == owner for r, h in jobs.items())
         >= settings.max_repos
     ):
         raise HTTPException(
-            429, "Repository limit reached. Remove unused repository directories while the server is stopped."
+            429, "Your workspace is full. Return home and remove a repository to make room."
         )
     if sum(not events or events[-1]["type"] not in {"done", "error"} for events in jobs.values()) >= 2:
         raise HTTPException(429, "Two repositories are already queued; try again shortly")
     repo = str(uuid.uuid4())
     (settings.data_dir / repo).mkdir(parents=True)
-    (settings.data_dir / repo / "request.json").write_text(json.dumps({"url": body.url}))
+    (settings.data_dir / repo / "request.json").write_text(json.dumps({"url": body.url, "owner": owner}))
     jobs[repo] = [{"type": "progress", "stage": "Cloning", "message": "Queued for indexing"}]
     task = asyncio.create_task(ingest(repo, body.url))
     tasks.add(task)
     task.add_done_callback(tasks.discard)
     return {"id": repo}
+
+
+@app.delete("/api/repos/{repo}", dependencies=[Depends(authorize)])
+async def remove_repo(repo: str) -> dict:
+    path = directory(repo)
+    history = jobs.get(repo, [])
+    if history and history[-1]["type"] not in {"done", "error"}:
+        raise HTTPException(409, "Wait for indexing to finish before removing this repository")
+    # Chat holds this semaphore while reading/saving, so deletion cannot race a response.
+    async with chat_slots:
+        async with index_lock:
+            index = indexes.pop(repo, None)
+            if index:
+                index.client.close()
+            store.remove_repo(repo)
+            shutil.rmtree(path)
+            jobs.pop(repo, None)
+    return {"removed": True}
 
 
 @app.get("/api/repos/{repo}/status", dependencies=[Depends(authorize)])
@@ -258,8 +302,9 @@ async def chat(repo: str, body: ChatRequest) -> StreamingResponse:
                 history = store.history(conversation_id, repo)
                 yield sse({"type": "status", "message": "Planning retrieval"})
                 query_plan = await plan(pool, body.question, history)
-                index = await get_index(repo)
-                found = await asyncio.to_thread(index.search, query_plan["queries"])
+                async with index_lock:
+                    index = await get_index(repo)
+                    found = await asyncio.to_thread(index.search, query_plan["queries"])
                 yield sse({"type": "retrieval", **query_plan, **found})
                 answer, warnings, citations = "", [], []
                 if not found["confident"]:

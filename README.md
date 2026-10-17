@@ -250,3 +250,10 @@ Implemented AST-aware ingestion and local hybrid retrieval with sentence-transfo
 Integrated cross-encoder reranking, multi-query planning, streaming answers, and source-citation verification.
 Designed a responsive three-pane workspace with Monaco navigation, dependency graphs, and retrieval diagnostics.
 Evaluated 32 source-labeled questions across two pinned repositories, achieving 75% Recall@5 with hybrid reranking.
+
+
+### Visitor privacy
+
+The web gateway issues a signed, HttpOnly, Secure (production), SameSite=Lax browser-session cookie. The existing server-only `CODELENS_ACCESS_TOKEN` signs it; no extra visitor keys or configuration are needed. All repository routes enforce session ownership, including status, events, source files, chat, saved conversations, and deletion. Legacy indexes without ownership are inaccessible. Repository limits apply to each browser session, not the combined public visitor list. The backend must remain configured with `ACCESS_TOKEN` so callers cannot impersonate gateway session headers.
+
+Snapshots are retained to support source lookup and follow-up questions. Visitors can remove their own snapshots and chat history from **Your workspace**. This is browser-session isolation, not account login: people sharing the same browser profile share that workspace. Cookies expire after seven days; Render's ephemeral disk may reset earlier. The Share action copies the public GitHub URL, never access to a private workspace. The GitHub header link opens this project's source repository.
