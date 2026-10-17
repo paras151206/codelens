@@ -2596,3 +2596,8 @@ body { font-family:Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-se
 
 .recent-row { display:flex; align-items:center; gap:12px; }
 .recent-row > button:first-child { flex:1; min-width:0; }
+
+@media (max-width: 800px) {
+  .github-link { display:flex; padding:8px; flex-shrink:0; }
+  .github-link span, .github-link .github-arrow { display:none; }
+}

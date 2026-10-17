@@ -791,7 +791,7 @@ export default function CodeLens() {
               target="_blank"
               rel="noreferrer"
             >
-              <Github size={16} /> GitHub <ArrowRight size={13} />
+              <Github size={16} /><span>GitHub</span><ArrowRight className="github-arrow" size={13} />
             </a>
           )}
         </div>
